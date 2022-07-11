@@ -42,9 +42,9 @@ def main():
     #     score += scores['rougeL'][2]
     # print(score/test_df.shape[0])
 
-    # result =test_df[['ID', 'prompt_pred_new']]
-    # result = result.rename({'prompt_pred_new': "prompt", 'ID': 'id'}, axis=1)
-    # result.to_json('predictions.json', orient='records', lines=True, indent=3)
+    result =test_df[['ID', 'prompt_pred_new']]
+    result = result.rename({'prompt_pred_new': "prompt", 'ID': 'id'}, axis=1)
+    result.to_json('predictions.json', orient='records', lines=True, indent=3)
     
     pass
 
