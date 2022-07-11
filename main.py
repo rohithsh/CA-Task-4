@@ -1,3 +1,7 @@
+#pip install bert-extractive-summarizer 
+# pip install sacremoses 
+# pip install rouge-score
+
 import pandas as pd
 import json
 from transformers import pipeline
@@ -19,6 +23,7 @@ def main():
     train_test['ID'] = train_test['ID'].str.split("essay")
     train_test['ID'] = train_test['ID'].apply(lambda x: int(x[1]))
     train_test = pd.merge(train_test, data_df, left_on = 'ID', right_on = 'id', how='inner')
+    test_df = train_test[train_test['SET']=='TEST']
     
     model = Summarizer()
     # test_df = test_df[0:20]
@@ -29,17 +34,17 @@ def main():
                                                               text2text_generator(question+x)[0]
                                                               ['generated_text'])
     #Claclulating Rogue-L score (Un-comment the import)
-#     score = 0
-#     scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
-#     for row in test_df.iterrows():
-#         scores = scorer.score(row[1]['prompt_pred_new'],
-#                               row[1]['prompt'])
-#         score += scores['rougeL'][2]
-#     print(score/test_df.shape[0])
+    # score = 0
+    # scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=True)
+    # for row in test_df.iterrows():
+    #     scores = scorer.score(row[1]['prompt_pred_new'],
+    #                           row[1]['prompt'])
+    #     score += scores['rougeL'][2]
+    # print(score/test_df.shape[0])
 
-    result =test_df[['ID', 'prompt_pred_new']]
-    result = result.rename({'prompt_pred_new': "prompt", 'ID': 'id'}, axis=1)
-    result.to_json('predictions.json', orient='records', lines=True, indent=3)
+    # result =test_df[['ID', 'prompt_pred_new']]
+    # result = result.rename({'prompt_pred_new': "prompt", 'ID': 'id'}, axis=1)
+    # result.to_json('predictions.json', orient='records', lines=True, indent=3)
     
     pass
 
